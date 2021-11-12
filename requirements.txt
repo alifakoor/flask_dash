@@ -51,7 +51,6 @@ prompt-toolkit==3.0.19
 pycparser==2.19
 Pygments==2.9.0
 pyparsing==2.4.7
-pypiwin32==223
 pyrsistent==0.15.3
 python-dateutil==2.8.0
 python-editor==1.0.4
