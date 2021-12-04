@@ -5,6 +5,7 @@ Created on Sun Jul  8 10:39:33 2018
 @author: jimmybow
 """
 import datetime
+import pytz
 import random
 import plotly.subplots
 
@@ -15,6 +16,8 @@ from dash import dcc
 from dash import html
 
 url_base = '/dash/app2/'
+
+timezone_iran = pytz.timezone('Asia/Tehran')
 
 layout = html.Div([
     dcc.Interval(
@@ -63,7 +66,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             temp = random.uniform(22, 25)
 
             data['Temperature'].append(temp)
@@ -99,7 +102,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             ph = random.uniform(7, 8)
 
             data['pH'].append(ph)
@@ -136,7 +139,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             orp = random.uniform(145, 150)
 
             data['ORP'].append(orp)
@@ -173,7 +176,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             ec = random.uniform(1357, 1387)
 
             data['EC'].append(ec)
@@ -210,7 +213,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             ammonia = random.uniform(1455, 1470)
 
             data['Ammonia'].append(ammonia)
@@ -247,7 +250,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             nitrite = random.uniform(11, 20)
 
             data['Nitrite'].append(nitrite)
@@ -284,7 +287,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             nitrate = random.uniform(30, 40)
 
             data['Nitrate'].append(nitrate)
@@ -321,7 +324,7 @@ def Add_Dash(server):
 
         # Collect some data
         for i in range(180):
-            time = datetime.datetime.now() - datetime.timedelta(seconds=(100 - i) * 2)
+            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
             oxygen = random.uniform(50, 70)
 
             data['Oxygen'].append(oxygen)
