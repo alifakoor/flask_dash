@@ -1,18 +1,19 @@
 from bcrypt import gensalt, hashpw, checkpw
 from flask_login import UserMixin
-from sqlalchemy import Binary, Column, Integer, String
+from sqlalchemy import Binary, Column, Integer, String, Float, TIMESTAMP
 
 from app import db, login_manager
 
 
 class User(db.Model, UserMixin):
 
-    __tablename__ = 'User'
+    __tablename__ = 'Users'
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    email = Column(String, unique=True)
+    username = Column(String(50), unique=True)
+    email = Column(String(150), unique=True)
     password = Column(Binary)
+    oxygen = db.relationship('Oxygen', backref='oxygen', lazy=True)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -45,6 +46,56 @@ class User(db.Model, UserMixin):
 
     def checkpw(self, password):
         return checkpw(password.encode('utf8'), self.password)
+
+
+class Oxygen(db.Model):
+
+    __tablename__ = 'Oxygen'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
+
+
+class Temperature(db.Model):
+
+    __tablename__ = 'Temperature'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
 
 
 @login_manager.user_loader

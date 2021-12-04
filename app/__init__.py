@@ -7,6 +7,9 @@ from Dashboard import Dash_App1, Dash_App2
 from os import path
 import logging
 
+# from callingAPI import calling
+
+
 def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
@@ -32,6 +35,7 @@ def configure_database(app):
     def shutdown_session(exception=None):
         db.session.remove()
 
+
 def configure_logs(app):
     # for combine gunicorn logging and flask built-in logging module
     if __name__ != "__main__":
@@ -39,6 +43,7 @@ def configure_logs(app):
         app.logger.handlers = gunicorn_logger.handlers
         app.logger.setLevel(gunicorn_logger.level)
     # endif
+
 
 def apply_themes(app):
     """
@@ -84,4 +89,7 @@ def create_app(config, selenium=False):
     apply_themes(app)
     app = Dash_App1.Add_Dash(app)
     app = Dash_App2.Add_Dash(app)
+
+    # calling.create_caller(app)
+
     return app
