@@ -3,7 +3,7 @@ import os
 
 class Config(object):
     SECRET_KEY = 'key'
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://deployer:tfJMABWq7NdKvzMJ@mysql.alifakoor13.svc/shrimp"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://deployer:tfJMABWq7NdKvzMJ@mysql.alifakoor13.svc/sea"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     ADMIN = {'username': 'admin',
              'email': 'admin',
