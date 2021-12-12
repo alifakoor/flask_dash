@@ -11,6 +11,7 @@ chardet==3.0.4
 Click==7.0
 colorama==0.4.4
 comtypes==1.1.10
+cryptography==36.0.0
 cycler==0.10.0
 dash==2.0.0
 dash-core-components==2.0.0
