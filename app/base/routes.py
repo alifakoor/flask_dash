@@ -33,13 +33,12 @@ def route_fixed_template(template):
 def route_errors(error):
     return render_template('errors/page_{}.html'.format(error))
 
-## Login & Registration
 
-
+# Login & Registration
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm(request.form)
-    if 'login' in request.form:
+    if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
         if user:
             if user.checkpw(request.form['password']):
@@ -54,7 +53,8 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('home_blueprint.index'))
     return render_template('login/login.html', login_form = login_form, status = '')
-   
+
+
 @blueprint.route('/logout')
 @login_required
 def logout():
@@ -70,7 +70,8 @@ def shutdown():
     func()
     return 'Server shutting down...'
 
-## Errors
+
+# Errors
 
 
 @login_manager.unauthorized_handler

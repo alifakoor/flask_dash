@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField
 
-## login and registration
+# login and registration
 
 
 class add_user_Form(FlaskForm):
@@ -9,12 +9,15 @@ class add_user_Form(FlaskForm):
     email = TextField('Email')
     password = PasswordField('Password', id='pwd_create')
 
+
 class delete_user_Form(FlaskForm):
     username = TextField('Username', id='username_delete')
+
 
 class setting_password_Form(FlaskForm):
     username = TextField('Username', id='username_setting')
     password = PasswordField('Password', id='pwd_setting')
+
 
 class change_password_Form(FlaskForm):
     origin_password = PasswordField('Type Origin Password', id='origin_assword')

@@ -13,7 +13,14 @@ class User(db.Model, UserMixin):
     username = Column(String(50), unique=True)
     email = Column(String(150), unique=True)
     password = Column(Binary)
-    oxygen = db.relationship('Oxygen', backref='oxygen', lazy=True)
+    temperature = db.relationship('Temperature', backref='temperature', lazy=True, passive_deletes=True)
+    ph = db.relationship('PH', backref='ph', lazy=True, passive_deletes=True)
+    ec = db.relationship('EC', backref='ec', lazy=True, passive_deletes=True)
+    orp = db.relationship('ORP', backref='orp', lazy=True, passive_deletes=True)
+    ammonia = db.relationship('Ammonia', backref='ammonia', lazy=True, passive_deletes=True)
+    nitrite = db.relationship('Nitrite', backref='nitrite', lazy=True, passive_deletes=True)
+    nitrate = db.relationship('Nitrate', backref='nitrate', lazy=True, passive_deletes=True)
+    oxygen = db.relationship('Oxygen', backref='oxygen', lazy=True, passive_deletes=True)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -48,14 +55,14 @@ class User(db.Model, UserMixin):
         return checkpw(password.encode('utf8'), self.password)
 
 
-class Oxygen(db.Model):
+class Temperature(db.Model):
 
-    __tablename__ = 'Oxygen'
+    __tablename__ = 'Temperature'
 
     id = Column(Integer, primary_key=True)
     value = Column(Float)
     timestamp = Column(TIMESTAMP)
-    user_id = Column(Integer, db.ForeignKey('Users.id'))
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -73,14 +80,164 @@ class Oxygen(db.Model):
         db.session.commit()
 
 
-class Temperature(db.Model):
+class PH(db.Model):
 
-    __tablename__ = 'Temperature'
+    __tablename__ = 'PH'
 
     id = Column(Integer, primary_key=True)
     value = Column(Float)
     timestamp = Column(TIMESTAMP)
-    user_id = Column(Integer, db.ForeignKey('Users.id'))
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
+
+
+class ORP(db.Model):
+
+    __tablename__ = 'ORP'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
+
+
+class EC(db.Model):
+
+    __tablename__ = 'EC'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
+
+
+class Ammonia(db.Model):
+
+    __tablename__ = 'Ammonia'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
+
+
+class Nitrite(db.Model):
+
+    __tablename__ = 'Nitrite'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
+
+
+class Nitrate(db.Model):
+
+    __tablename__ = 'Nitrate'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
+
+    def __init__(self, **kwargs):
+        for property, value in kwargs.items():
+            setattr(self, property, value)
+        print(self)
+
+    def __repr__(self):
+        return str(self.value)
+
+    def add_to_db(self):
+        db.session.add(self)
+        self.db_commit()
+
+    def db_commit(self):
+        db.session.commit()
+
+
+class Oxygen(db.Model):
+
+    __tablename__ = 'Oxygen'
+
+    id = Column(Integer, primary_key=True)
+    value = Column(Float)
+    timestamp = Column(TIMESTAMP)
+    user_id = Column(Integer, db.ForeignKey('Users.id', ondelete='CASCADE'))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():

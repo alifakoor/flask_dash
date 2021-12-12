@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from .forms import add_user_Form, delete_user_Form, change_password_Form, setting_password_Form
 from ..base.models import User
 
+
 @blueprint.route('/add_user', methods=['GET', 'POST'])
 @login_required
 def add_User():
@@ -23,6 +24,7 @@ def add_User():
             return render_template('add_user.html', form = form, status = status)
         return render_template('add_user.html', form = form, status = '')
     return redirect('/page_403')
+
 
 @blueprint.route('/delete_user', methods=['GET', 'POST'])
 @login_required
@@ -45,6 +47,7 @@ def delete_user():
         return render_template('delete_user.html', form = form, status = '') 
     return redirect('/page_403')
 
+
 @blueprint.route('/setting_password', methods=['GET', 'POST'])
 @login_required
 def setting_password():
@@ -66,6 +69,7 @@ def setting_password():
             return render_template('setting_password.html', form = form, status = status)
         return render_template('setting_password.html', form = form, status = '') 
     return redirect('/page_403')
+
 
 @blueprint.route('/change_password', methods=['GET', 'POST'])
 @login_required

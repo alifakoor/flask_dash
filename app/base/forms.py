@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField
 
-## login and registration
+# login and registration
 
 
 class LoginForm(FlaskForm):

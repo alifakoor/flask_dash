@@ -9,6 +9,9 @@ import pytz
 import random
 import plotly.subplots
 
+from app.base.models import Temperature, PH, EC, ORP, Ammonia, Nitrite, Nitrate, Oxygen
+from flask_login import current_user
+
 from dash import Dash
 from dash.dependencies import Input, State, Output
 from .Dash_fun import apply_layout_with_auth, load_object, save_object
@@ -64,13 +67,11 @@ def Add_Dash(server):
             'Temperature': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            temp = random.uniform(22, 25)
+        temperatures = Temperature.query.filter_by(user_id=current_user.id).all()
 
-            data['Temperature'].append(temp)
-            data['time'].append(time)
+        for temp in temperatures:
+            data['Temperature'].append(temp.value)
+            data['time'].append(temp.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -87,8 +88,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="Time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="Temperature", range=[0, 50], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="Temperature", range=[0, 50])
         return fig
 
     @app.callback(Output('live-update-graph-ph', 'figure'),
@@ -100,13 +104,11 @@ def Add_Dash(server):
             'pH': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            ph = random.uniform(7, 8)
+        phs = PH.query.filter_by(user_id=current_user.id).all()
 
-            data['pH'].append(ph)
-            data['time'].append(time)
+        for ph in phs:
+            data['pH'].append(ph.value)
+            data['time'].append(ph.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -123,8 +125,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="Time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="pH", range=[0, 14], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="pH", range=[0, 14])
 
         return fig
 
@@ -137,13 +142,11 @@ def Add_Dash(server):
             'ORP': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            orp = random.uniform(145, 150)
+        orps = ORP.query.filter_by(user_id=current_user.id).all()
 
-            data['ORP'].append(orp)
-            data['time'].append(time)
+        for orp in orps:
+            data['ORP'].append(orp.value)
+            data['time'].append(orp.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -160,8 +163,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="Time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="ORP", range=[0, 400], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="ORP", range=[0, 400])
 
         return fig
 
@@ -174,13 +180,11 @@ def Add_Dash(server):
             'EC': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            ec = random.uniform(1357, 1387)
+        ecs = EC.query.filter_by(user_id=current_user.id).all()
 
-            data['EC'].append(ec)
-            data['time'].append(time)
+        for ec in ecs:
+            data['EC'].append(ec.value)
+            data['time'].append(ec.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -197,8 +201,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="Time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="EC", range=[0, 4000], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="EC", range=[0, 4000])
 
         return fig
 
@@ -211,13 +218,11 @@ def Add_Dash(server):
             'Ammonia': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            ammonia = random.uniform(1455, 1470)
+        ammonias = Ammonia.query.filter_by(user_id=current_user.id).all()
 
-            data['Ammonia'].append(ammonia)
-            data['time'].append(time)
+        for ammonia in ammonias:
+            data['Ammonia'].append(ammonia.value)
+            data['time'].append(ammonia.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -234,8 +239,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="Time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="Ammonia", range=[0, 2000], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="Ammonia", range=[0, 2000])
 
         return fig
 
@@ -248,13 +256,11 @@ def Add_Dash(server):
             'Nitrite': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            nitrite = random.uniform(11, 20)
+        nitrites = Nitrite.query.filter_by(user_id=current_user.id).all()
 
-            data['Nitrite'].append(nitrite)
-            data['time'].append(time)
+        for nitrite in nitrites:
+            data['Nitrite'].append(nitrite.value)
+            data['time'].append(nitrite.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -271,8 +277,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="Time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="Nitrite", range=[0, 50], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="Nitrite", range=[0, 50])
 
         return fig
 
@@ -285,13 +294,11 @@ def Add_Dash(server):
             'Nitrate': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            nitrate = random.uniform(30, 40)
+        nitrates = Nitrate.query.filter_by(user_id=current_user.id).all()
 
-            data['Nitrate'].append(nitrate)
-            data['time'].append(time)
+        for nitrate in nitrates:
+            data['Nitrate'].append(nitrate.value)
+            data['time'].append(nitrate.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -308,8 +315,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="Time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="Nitrate", range=[0, 50], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="Nitrate", range=[0, 50])
 
         return fig
 
@@ -322,13 +332,11 @@ def Add_Dash(server):
             'Oxygen': []
         }
 
-        # Collect some data
-        for i in range(180):
-            time = datetime.datetime.now(timezone_iran) - datetime.timedelta(seconds=(100 - i) * 2)
-            oxygen = random.uniform(50, 70)
+        oxygens = Oxygen.query.filter_by(user_id=current_user.id).all()
 
-            data['Oxygen'].append(oxygen)
-            data['time'].append(time)
+        for oxygen in oxygens:
+            data['Oxygen'].append(oxygen.value)
+            data['time'].append(oxygen.timestamp)
 
         # Create the graph with subplots
         fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
@@ -345,8 +353,11 @@ def Add_Dash(server):
             'type': 'scatter'
         }, 1, 1)
 
-        fig.update_xaxes(title_text="time", range=[data["time"][0], data["time"][179]], autorange=False)
-        fig.update_yaxes(title_text="Oxygen", range=[0, 100], autorange=False)
+        time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
+        time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
+
+        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
+        fig.update_yaxes(title_text="Oxygen", range=[0, 100])
 
         return fig
 
