@@ -116,9 +116,9 @@ def add_data():
 def validator(request):
     err = False
     for key, value in request.form.items():
-        if not type(value) is float:
-            err = True
-            break
+        # if not type(value) is float:
+        #     err = True
+        #     break
 
         if key == 'temperature':
             if not float(value) >= 0 or not float(value) <= 50:
