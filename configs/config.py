@@ -24,14 +24,11 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
-
-    # PostgreSQL database
-    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}'.format(
-        os.environ.get('GENTELELLA_DATABASE_USER', 'gentelella'),
-        os.environ.get('GENTELELLA_DATABASE_PASSWORD', 'gentelella'),
-        os.environ.get('GENTELELLA_DATABASE_HOST', 'db'),
-        os.environ.get('GENTELELLA_DATABASE_PORT', 5432),
-        os.environ.get('GENTELELLA_DATABASE_NAME', 'gentelella')
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}/{}'.format(
+        os.environ.get('MYSQL_USER', 'root'),
+        os.environ.get('MYSQL_PASSWORD', ''),
+        os.environ.get('MYSQL_URI', 'localhost'),
+        os.environ.get('MYSQL_DB_NAME', 'shrimp')
     )
 
 

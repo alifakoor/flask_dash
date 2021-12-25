@@ -1,13 +1,11 @@
-from flask import Flask, url_for, request
+import logging
+from flask import Flask, url_for
 from flask_login import current_user
 from .extensions import db, login_manager
 from importlib import import_module
 from .base.models import User
 from Dashboard import Dash_App2
 from os import path
-import logging
-
-# from callingAPI import calling
 
 
 def register_extensions(app):

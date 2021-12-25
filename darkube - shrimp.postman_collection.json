@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "9de72b86-ab75-47b8-b6b3-7e5b4f27e2cf",
+		"name": "darkube - shrimp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "set data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "temperature",
+							"value": "35",
+							"type": "text"
+						},
+						{
+							"key": "ph",
+							"value": "7",
+							"type": "text"
+						},
+						{
+							"key": "ec",
+							"value": "1360",
+							"type": "text"
+						},
+						{
+							"key": "orp",
+							"value": "148",
+							"type": "text"
+						},
+						{
+							"key": "ammonia",
+							"value": "1460",
+							"type": "text"
+						},
+						{
+							"key": "nitrite",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "nitrate",
+							"value": "40",
+							"type": "text"
+						},
+						{
+							"key": "oxygen",
+							"value": "45",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://flaskdash.darkube.app/api/add_data",
+					"protocol": "https",
+					"host": [
+						"flaskdash",
+						"darkube",
+						"app"
+					],
+					"path": [
+						"api",
+						"add_data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://flaskdash.darkube.app/api/login",
+					"protocol": "https",
+					"host": [
+						"flaskdash",
+						"darkube",
+						"app"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
