@@ -9,6 +9,8 @@ class Config(object):
         os.environ.get('MYSQL_URI', 'localhost'),
         os.environ.get('MYSQL_DB_NAME', 'shrimp')
     )
+    SQLALCHEMY_POOL_SIZE = 10
+    SQLALCHEMY_MAX_OVERFLOW = 20
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     ADMIN = {'username': 'admin',
              'email': 'admin',
@@ -30,6 +32,8 @@ class ProductionConfig(Config):
         os.environ.get('MYSQL_URI', 'localhost'),
         os.environ.get('MYSQL_DB_NAME', 'shrimp')
     )
+    SQLALCHEMY_POOL_SIZE = 10
+    SQLALCHEMY_MAX_OVERFLOW = 20
 
 
 class DebugConfig(Config):

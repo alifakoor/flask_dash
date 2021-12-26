@@ -44,20 +44,6 @@ def configure_logs(app):
 
 
 def apply_themes(app):
-    """
-    Add support for themes.
-
-    If DEFAULT_THEME is set then all calls to
-      url_for('static', filename='')
-      will modfify the url to include the theme name
-
-    The theme parameter can be set directly in url_for as well:
-      ex. url_for('static', filename='', theme='')
-
-    If the file cannot be found in the /static/<theme>/ lcation then
-      the url will not be modified and the file is expected to be
-      in the default /static/ location
-    """
     @app.context_processor
     def override_url_for():
         Is_admin = current_user.is_authenticated and current_user.username == app.config['ADMIN']['username']
