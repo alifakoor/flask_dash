@@ -14,35 +14,78 @@ url_base = '/dash/app2/'
 timezone_iran = pytz.timezone('Asia/Tehran')
 
 layout = html.Div([
+    html.Div([
     dcc.Interval(
         id='interval-component',
         interval=120000,  # in milliseconds
         n_intervals=0
     ),
-    html.Div('Temperature / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-temp', animate=True),
+    html.Div([
+        html.Div([
+            html.Div([
+                html.Div('Temperature / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-temp', animate=True, className='card-body'),
+            ], className='card')
+        ], className='col-12 col-md-8'),
+        html.Div([
+            html.Div([
+                html.Div('Oxygen / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-oxygen', animate=True, className='card-body')
+            ], className='card')
+        ], className='col-12 col-md-4')
+    ], className='row mb-3'),
 
-    html.Div('pH / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-ph', animate=True),
+    html.Div([
+        html.Div([
+            html.Div([
+                html.Div('pH / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-ph', animate=True, className='card-body')
+            ], className='card')
 
-    html.Div('ORP / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-orp', animate=True),
+        ], className='col-12 col-md-4'),
+        html.Div([
+            html.Div([
+                html.Div('EC / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-ec', animate=True, className='card-body')
+            ], className='card')
 
-    html.Div('EC / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-ec', animate=True),
+        ], className='col-12 col-md-4'),
+        html.Div([
+            html.Div([
+                html.Div('ORP / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-orp', animate=True, className='card-body')
+            ], className='card')
 
-    html.Div('Ammonia / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-ammonia', animate=True),
+        ], className='col-12 col-md-4'),
+    ], className='row mb-3'),
 
-    html.Div('Nitrite / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-nitrite', animate=True),
+    html.Div([
+        html.Div([
+            html.Div([
+                html.Div('Ammonia / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-ammonia', animate=True, className='card-body')
+            ], className='card')
 
-    html.Div('Nitrate / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-nitrate', animate=True),
+        ], className='col-12 col-md-4'),
+        html.Div([
+            html.Div([
+                html.Div('Nitrite / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-nitrite', animate=True, className='card-body')
+            ], className='card')
 
-    html.Div('Oxygen / Time'), html.Br(),
-    dcc.Graph(id='live-update-graph-oxygen', animate=True)
-])
+        ], className='col-12 col-md-4'),
+        html.Div([
+            html.Div([
+                html.Div('Nitrate / Time', className='card-header'),
+                dcc.Graph(id='live-update-graph-nitrate', animate=True, className='card-body')
+            ], className='card')
+
+        ], className='col-12 col-md-4'),
+    ], className='row')
+
+
+], className='col-12 col-md-12')
+], className='row', style={'width': '100%'})
 
 
 def Add_Dash(server):
