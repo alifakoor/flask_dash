@@ -88,6 +88,24 @@ layout = html.Div([
 ], className='row', style={'width': '100%'})
 
 
+def create_fig(data_x, data_y, name, bg_color, color):
+    fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+    fig['layout']['margin'] = {
+        'l': 30, 'r': 10, 'b': 30, 't': 10
+    }
+    fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+    fig['layout']['plot_bgcolor'] = bg_color
+
+    fig.append_trace({
+        'x': data_x,
+        'y': data_y,
+        'name': name,
+        'marker_color': color,
+        'mode': 'lines+markers',
+        'type': 'scatter',
+    }, 1, 1)
+    return fig
+
 def Add_Dash(server):
     app = Dash(server=server, url_base_pathname=url_base)
     apply_layout_with_auth(app, layout)
@@ -98,35 +116,39 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'Temperature': []
+            'temp': []
         }
 
         temperatures = Temperature.query.filter_by(user_id=current_user.id).all()
 
         for temp in temperatures:
-            data['Temperature'].append(temp.value)
+            data['temp'].append(temp.value)
             data['time'].append(temp.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
-
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['Temperature'],
-            'name': 'Temperature',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['Temperature'],
+        #     'name': 'Temperature',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
+        fig = create_fig(data["time"], data["temp"], "Temperature", "#BE0713", "white")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        temp_range_min = min(data["temp"]) - 10
+        temp_range_max = max(data["temp"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Temperature", range=[0, 50])
+        fig.update_yaxes(title_text="Temperature", range=[temp_range_min, temp_range_max])
         return fig
 
     @app.callback(Output('live-update-graph-ph', 'figure'),
@@ -135,35 +157,40 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'pH': []
+            'ph': []
         }
 
         phs = PH.query.filter_by(user_id=current_user.id).all()
 
         for ph in phs:
-            data['pH'].append(ph.value)
+            data['ph'].append(ph.value)
             data['time'].append(ph.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['pH'],
+        #     'name': 'pH',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
 
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['pH'],
-            'name': 'pH',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        fig = create_fig(data["time"], data["ph"], "pH", "#6E359D", "black")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        ph_range_min = min(data["ph"]) - 10
+        ph_range_max = max(data["ph"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="pH", range=[0, 14])
+        fig.update_yaxes(title_text="pH", range=[ph_range_min, ph_range_max])
 
         return fig
 
@@ -173,35 +200,40 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'ORP': []
+            'orp': []
         }
 
         orps = ORP.query.filter_by(user_id=current_user.id).all()
 
         for orp in orps:
-            data['ORP'].append(orp.value)
+            data['orp'].append(orp.value)
             data['time'].append(orp.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['ORP'],
+        #     'name': 'ORP',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
 
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['ORP'],
-            'name': 'ORP',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        fig = create_fig(data["time"], data["orp"], "ORP", "#CDD4E7", "black")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        orp_range_min = min(data["orp"]) - 10
+        orp_range_max = max(data["orp"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="ORP", range=[0, 400])
+        fig.update_yaxes(title_text="ORP", range=[orp_range_min, orp_range_max])
 
         return fig
 
@@ -211,35 +243,40 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'EC': []
+            'ec': []
         }
 
         ecs = EC.query.filter_by(user_id=current_user.id).all()
 
         for ec in ecs:
-            data['EC'].append(ec.value)
+            data['ec'].append(ec.value)
             data['time'].append(ec.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['EC'],
+        #     'name': 'EC',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
 
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['EC'],
-            'name': 'EC',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        fig = create_fig(data["time"], data["ec"], "EC", "#19AE55", "black")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        ec_range_min = min(data["ec"]) - 10
+        ec_range_max = max(data["ec"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="EC", range=[0, 4000])
+        fig.update_yaxes(title_text="EC", range=[ec_range_min, ec_range_max])
 
         return fig
 
@@ -249,35 +286,40 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'Ammonia': []
+            'ammonia': []
         }
 
         ammonias = Ammonia.query.filter_by(user_id=current_user.id).all()
 
         for ammonia in ammonias:
-            data['Ammonia'].append(ammonia.value)
+            data['ammonia'].append(ammonia.value)
             data['time'].append(ammonia.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['Ammonia'],
+        #     'name': 'Ammonia',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
 
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['Ammonia'],
-            'name': 'Ammonia',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        fig = create_fig(data["time"], data["ammonia"], "Ammonia", "#FCBE2E", "black")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        ammonia_range_min = min(data["ammonia"]) - 10
+        ammonia_range_max = max(data["ammonia"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Ammonia", range=[0, 2000])
+        fig.update_yaxes(title_text="Ammonia", range=[ammonia_range_min, ammonia_range_max])
 
         return fig
 
@@ -287,35 +329,40 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'Nitrite': []
+            'nitrite': []
         }
 
         nitrites = Nitrite.query.filter_by(user_id=current_user.id).all()
 
         for nitrite in nitrites:
-            data['Nitrite'].append(nitrite.value)
+            data['nitrite'].append(nitrite.value)
             data['time'].append(nitrite.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['Nitrite'],
+        #     'name': 'Nitrite',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
 
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['Nitrite'],
-            'name': 'Nitrite',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        fig = create_fig(data["time"], data["nitrite"], "Nitrite", "#FDD66E", "black")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        nitrite_range_min = min(data["nitrite"]) - 10
+        nitrite_range_max = max(data["nitrite"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Nitrite", range=[0, 50])
+        fig.update_yaxes(title_text="Nitrite", range=[nitrite_range_min, nitrite_range_max])
 
         return fig
 
@@ -325,35 +372,40 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'Nitrate': []
+            'nitrate': []
         }
 
         nitrates = Nitrate.query.filter_by(user_id=current_user.id).all()
 
         for nitrate in nitrates:
-            data['Nitrate'].append(nitrate.value)
+            data['nitrate'].append(nitrate.value)
             data['time'].append(nitrate.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['Nitrate'],
+        #     'name': 'Nitrate',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
 
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['Nitrate'],
-            'name': 'Nitrate',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        fig = create_fig(data["time"], data["nitrate"], "Nitrate", "#F6CAAF", "black")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        nitrate_range_min = min(data["nitrate"]) - 10
+        nitrate_range_max = max(data["nitrate"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Nitrate", range=[0, 50])
+        fig.update_yaxes(title_text="Nitrate", range=[nitrate_range_min, nitrate_range_max])
 
         return fig
 
@@ -363,35 +415,40 @@ def Add_Dash(server):
 
         data = {
             'time': [],
-            'Oxygen': []
+            'oxygen': []
         }
 
         oxygens = Oxygen.query.filter_by(user_id=current_user.id).all()
 
         for oxygen in oxygens:
-            data['Oxygen'].append(oxygen.value)
+            data['oxygen'].append(oxygen.value)
             data['time'].append(oxygen.timestamp)
 
         # Create the graph with subplots
-        fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-        fig['layout']['margin'] = {
-            'l': 30, 'r': 10, 'b': 30, 't': 10
-        }
-        fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+        # fig['layout']['margin'] = {
+        #     'l': 30, 'r': 10, 'b': 30, 't': 10
+        # }
+        # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+        #
+        # fig.append_trace({
+        #     'x': data['time'],
+        #     'y': data['Oxygen'],
+        #     'name': 'Oxygen',
+        #     'mode': 'lines+markers',
+        #     'type': 'scatter'
+        # }, 1, 1)
 
-        fig.append_trace({
-            'x': data['time'],
-            'y': data['Oxygen'],
-            'name': 'Oxygen',
-            'mode': 'lines+markers',
-            'type': 'scatter'
-        }, 1, 1)
+        fig = create_fig(data["time"], data["oxygen"], "Oxygen", "#1DB1ED", "white")
 
         time_range_min = data["time"][0] - datetime.timedelta(seconds=300)
         time_range_max = data["time"][len(data["time"]) - 1] + datetime.timedelta(seconds=300)
 
+        oxygen_range_min = min(data["oxygen"]) - 10
+        oxygen_range_max = max(data["oxygen"]) + 10
+
         fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Oxygen", range=[0, 100])
+        fig.update_yaxes(title_text="Oxygen", range=[oxygen_range_min, oxygen_range_max])
 
         return fig
 
