@@ -76,12 +76,14 @@ def shutdown():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return render_template('errors/page_403.html'), 403
+    return redirect('/login')
+    # return render_template('errors/page_403.html'), 403
 
 
 @blueprint.errorhandler(403)
 def access_forbidden(error):
-    return render_template('errors/page_403.html'), 403
+    return redirect('/login')
+    # return render_template('errors/page_403.html'), 403
 
 
 @blueprint.errorhandler(404)

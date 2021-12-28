@@ -40,72 +40,74 @@ def api_login():
 
 
 @blueprint.route('/add_data', methods=['POST'])
-@login_required
+# @login_required
 def add_data():
-    admin_user = current_app.config['ADMIN']['username']
+    # admin_user = current_app.config['ADMIN']['username']
     success = False
     message = "You are not login."
-    if current_user.username == admin_user:
-        if request.method == 'POST':
-            if validator(request):
-                temperature = {
-                    'value': request.form.get('temperature'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
-                ph = {
-                    'value': request.form.get('ph'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
-                ec = {
-                    'value': request.form.get('ec'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
-                orp = {
-                    'value': request.form.get('orp'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
-                ammonia = {
-                    'value': request.form.get('ammonia'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
-                nitrite = {
-                    'value': request.form.get('nitrite'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
-                nitrate = {
-                    'value': request.form.get('nitrate'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
-                oxygen = {
-                    'value': request.form.get('oxygen'),
-                    'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                    'user_id': current_user.id
-                }
+    # if current_user.username == admin_user:
 
-                Temperature(**temperature).add_to_db()
-                PH(**ph).add_to_db()
-                EC(**ec).add_to_db()
-                ORP(**orp).add_to_db()
-                Ammonia(**ammonia).add_to_db()
-                Nitrite(**nitrite).add_to_db()
-                Nitrate(**nitrate).add_to_db()
-                Oxygen(**oxygen).add_to_db()
+    if request.method == 'POST':
+        if validator(request):
+            temperature = {
+                'value': request.form.get('temperature'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            ph = {
+                'value': request.form.get('ph'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                'user_id': 1
+            }
+            ec = {
+                'value': request.form.get('ec'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                'user_id': 1
+            }
+            orp = {
+                'value': request.form.get('orp'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                'user_id': 1
+            }
+            ammonia = {
+                'value': request.form.get('ammonia'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                'user_id': 1
+            }
+            nitrite = {
+                'value': request.form.get('nitrite'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                'user_id': 1
+            }
+            nitrate = {
+                'value': request.form.get('nitrate'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                'user_id': 1
+            }
+            oxygen = {
+                'value': request.form.get('oxygen'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                'user_id': 1
+            }
 
-                success = True,
-                message = "Data has been saved successfully."
+            Temperature(**temperature).add_to_db()
+            PH(**ph).add_to_db()
+            EC(**ec).add_to_db()
+            ORP(**orp).add_to_db()
+            Ammonia(**ammonia).add_to_db()
+            Nitrite(**nitrite).add_to_db()
+            Nitrate(**nitrate).add_to_db()
+            Oxygen(**oxygen).add_to_db()
 
-            else:
-                message = "Data is not correct."
+            success = True,
+            message = "Data has been saved successfully."
 
         else:
-            message = "Request method is not correct."
+            message = "Data is not correct."
+
+    else:
+        message = "Request method is not correct."
 
     return jsonify({
         "success": success,
