@@ -1,6 +1,7 @@
 import datetime
 import pytz
 import plotly.subplots
+import plotly.graph_objects as go
 from app.base.models import Temperature, PH, EC, ORP, Ammonia, Nitrite, Nitrate, Oxygen
 from flask_login import current_user
 from dash import Dash
@@ -89,21 +90,32 @@ layout = html.Div([
 
 
 def create_fig(data_x, data_y, name, bg_color, color):
-    fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
-    fig['layout']['margin'] = {
-        'l': 30, 'r': 10, 'b': 30, 't': 10
-    }
-    fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
-    fig['layout']['plot_bgcolor'] = bg_color
+    # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
+    fig = go.Figure()
+    print('**************************************************')
+    print(fig)
+    # fig['layout']['margin'] = {
+    #     'l': 30, 'r': 10, 'b': 30, 't': 10
+    # }
+    # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
+    fig['layout']['plot_bgcolor'] = '#f6f7f9'
 
-    fig.append_trace({
-        'x': data_x,
-        'y': data_y,
-        'name': name,
-        'marker_color': color,
-        'mode': 'lines+markers',
-        'type': 'scatter',
-    }, 1, 1)
+    # fig.add_trace({
+    #     'x': data_x,
+    #     'y': data_y,
+    #     'name': name,
+    #     'marker_color': color,
+    #     'mode': 'lines+markers',
+    #     'type': 'scatter',
+    # }, 1, 1)
+
+    # fig.add_trace()
+    fig.add_trace(go.Scatter(
+        x=data_x,
+        y=data_y,
+        fill='tozeroy',
+        line_color=bg_color
+    ))
     return fig
 
 def Add_Dash(server):
