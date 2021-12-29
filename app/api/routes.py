@@ -48,64 +48,65 @@ def add_data():
     # if current_user.username == admin_user:
 
     if request.method == 'POST':
-        if validator(request):
-            temperature = {
-                'value': request.form.get('temperature'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                # 'user_id': current_user.id
-                'user_id': 1
-            }
-            ph = {
-                'value': request.form.get('ph'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                'user_id': 1
-            }
-            ec = {
-                'value': request.form.get('ec'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                'user_id': 1
-            }
-            orp = {
-                'value': request.form.get('orp'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                'user_id': 1
-            }
-            ammonia = {
-                'value': request.form.get('ammonia'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                'user_id': 1
-            }
-            nitrite = {
-                'value': request.form.get('nitrite'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                'user_id': 1
-            }
-            nitrate = {
-                'value': request.form.get('nitrate'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                'user_id': 1
-            }
-            oxygen = {
-                'value': request.form.get('oxygen'),
-                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-                'user_id': 1
-            }
+        # if validator(request):
+        #
+        #
+        # else:
+        #     message = "Data is not correct."
 
-            Temperature(**temperature).add_to_db()
-            PH(**ph).add_to_db()
-            EC(**ec).add_to_db()
-            ORP(**orp).add_to_db()
-            Ammonia(**ammonia).add_to_db()
-            Nitrite(**nitrite).add_to_db()
-            Nitrate(**nitrate).add_to_db()
-            Oxygen(**oxygen).add_to_db()
+        temperature = {
+            'value': request.form.get('temperature'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            # 'user_id': current_user.id
+            'user_id': 1
+        }
+        ph = {
+            'value': request.form.get('ph'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            'user_id': 1
+        }
+        ec = {
+            'value': request.form.get('ec'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            'user_id': 1
+        }
+        orp = {
+            'value': request.form.get('orp'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            'user_id': 1
+        }
+        ammonia = {
+            'value': request.form.get('ammonia'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            'user_id': 1
+        }
+        nitrite = {
+            'value': request.form.get('nitrite'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            'user_id': 1
+        }
+        nitrate = {
+            'value': request.form.get('nitrate'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            'user_id': 1
+        }
+        oxygen = {
+            'value': request.form.get('oxygen'),
+            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+            'user_id': 1
+        }
 
-            success = True,
-            message = "Data has been saved successfully."
+        Temperature(**temperature).add_to_db()
+        PH(**ph).add_to_db()
+        EC(**ec).add_to_db()
+        ORP(**orp).add_to_db()
+        Ammonia(**ammonia).add_to_db()
+        Nitrite(**nitrite).add_to_db()
+        Nitrate(**nitrate).add_to_db()
+        Oxygen(**oxygen).add_to_db()
 
-        else:
-            message = "Data is not correct."
-
+        success = True,
+        message = "Data has been saved successfully."
     else:
         message = "Request method is not correct."
 
