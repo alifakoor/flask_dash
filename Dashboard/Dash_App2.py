@@ -92,8 +92,6 @@ layout = html.Div([
 def create_fig(data_x, data_y, name, bg_color, color):
     # fig = plotly.subplots.make_subplots(rows=1, cols=1, vertical_spacing=0.2)
     fig = go.Figure()
-    print('**************************************************')
-    print(fig)
     # fig['layout']['margin'] = {
     #     'l': 30, 'r': 10, 'b': 30, 't': 10
     # }

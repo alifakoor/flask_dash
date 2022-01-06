@@ -68,7 +68,8 @@ def create_app(config, selenium=False):
         app.config['LOGIN_DISABLED'] = True
     register_extensions(app)
     register_blueprints(app)
-    configure_database(app)
+    if config.DEBUG:
+        configure_database(app)
     configure_logs(app)
     apply_themes(app)
     app = Dash_App2.Add_Dash(app)

@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from configs.config import config_dict
 from app import create_app, db
 
-get_config_mode = os.environ.get('APP_CONFIG_MODE', 'Debug')
+get_config_mode = os.environ.get('APP_CONFIG_MODE', 'production')
 
 try:
     config_mode = config_dict[get_config_mode.capitalize()]
