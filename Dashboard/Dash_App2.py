@@ -16,76 +16,75 @@ timezone_iran = pytz.timezone('Asia/Tehran')
 
 layout = html.Div([
     html.Div([
-    dcc.Interval(
-        id='interval-component',
-        interval=120000,  # in milliseconds
-        n_intervals=0
-    ),
-    html.Div([
+        dcc.Interval(
+            id='interval-component',
+            interval=120000,  # in milliseconds
+            n_intervals=0
+        ),
         html.Div([
             html.Div([
-                html.Div('Temperature / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-temp', animate=True, className='card-body'),
-            ], className='card')
-        ], className='col-12 col-md-8'),
+                html.Div([
+                    html.Div('Temperature / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-temp', animate=True, className='card-body'),
+                ], className='card')
+            ], className='col-12 col-md-8'),
+            html.Div([
+                html.Div([
+                    html.Div('Oxygen / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-oxygen', animate=True, className='card-body')
+                ], className='card')
+            ], className='col-12 col-md-4')
+        ], className='row mb-3'),
+
         html.Div([
             html.Div([
-                html.Div('Oxygen / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-oxygen', animate=True, className='card-body')
-            ], className='card')
-        ], className='col-12 col-md-4')
-    ], className='row mb-3'),
+                html.Div([
+                    html.Div('pH / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-ph', animate=True, className='card-body')
+                ], className='card')
 
-    html.Div([
+            ], className='col-12 col-md-4'),
+            html.Div([
+                html.Div([
+                    html.Div('EC / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-ec', animate=True, className='card-body')
+                ], className='card')
+
+            ], className='col-12 col-md-4'),
+            html.Div([
+                html.Div([
+                    html.Div('ORP / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-orp', animate=True, className='card-body')
+                ], className='card')
+
+            ], className='col-12 col-md-4'),
+        ], className='row mb-3'),
+
         html.Div([
             html.Div([
-                html.Div('pH / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-ph', animate=True, className='card-body')
-            ], className='card')
+                html.Div([
+                    html.Div('Ammonia / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-ammonia', animate=True, className='card-body')
+                ], className='card')
 
-        ], className='col-12 col-md-4'),
-        html.Div([
+            ], className='col-12 col-md-4'),
             html.Div([
-                html.Div('EC / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-ec', animate=True, className='card-body')
-            ], className='card')
+                html.Div([
+                    html.Div('Nitrite / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-nitrite', animate=True, className='card-body')
+                ], className='card')
 
-        ], className='col-12 col-md-4'),
-        html.Div([
+            ], className='col-12 col-md-4'),
             html.Div([
-                html.Div('ORP / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-orp', animate=True, className='card-body')
-            ], className='card')
+                html.Div([
+                    html.Div('Nitrate / Time', className='card-header'),
+                    dcc.Graph(id='live-update-graph-nitrate', animate=True, className='card-body')
+                ], className='card')
 
-        ], className='col-12 col-md-4'),
-    ], className='row mb-3'),
+            ], className='col-12 col-md-4'),
+        ], className='row')
 
-    html.Div([
-        html.Div([
-            html.Div([
-                html.Div('Ammonia / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-ammonia', animate=True, className='card-body')
-            ], className='card')
-
-        ], className='col-12 col-md-4'),
-        html.Div([
-            html.Div([
-                html.Div('Nitrite / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-nitrite', animate=True, className='card-body')
-            ], className='card')
-
-        ], className='col-12 col-md-4'),
-        html.Div([
-            html.Div([
-                html.Div('Nitrate / Time', className='card-header'),
-                dcc.Graph(id='live-update-graph-nitrate', animate=True, className='card-body')
-            ], className='card')
-
-        ], className='col-12 col-md-4'),
-    ], className='row')
-
-
-], className='col-12 col-md-12')
+    ], className='col-12 col-md-12')
 ], className='row', style={'width': '100%'})
 
 
@@ -97,6 +96,7 @@ def create_fig(data_x, data_y, name, bg_color, color):
     # }
     # fig['layout']['legend'] = {'x': 0, 'y': 1, 'xanchor': 'left'}
     fig['layout']['plot_bgcolor'] = '#f6f7f9'
+    fig['layout']['margin'] = {'l': 0, 'r': 0, 't': 0, 'b': 0, 'pad': 0}
 
     # fig.add_trace({
     #     'x': data_x,
@@ -115,6 +115,7 @@ def create_fig(data_x, data_y, name, bg_color, color):
         line_color=bg_color
     ))
     return fig
+
 
 def Add_Dash(server):
     app = Dash(server=server, url_base_pathname=url_base)
@@ -157,8 +158,8 @@ def Add_Dash(server):
         temp_range_min = min(data["temp"]) - 10
         temp_range_max = max(data["temp"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Temperature", range=[temp_range_min, temp_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[temp_range_min, temp_range_max])
         return fig
 
     @app.callback(Output('live-update-graph-ph', 'figure'),
@@ -199,8 +200,8 @@ def Add_Dash(server):
         ph_range_min = min(data["ph"]) - 10
         ph_range_max = max(data["ph"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="pH", range=[ph_range_min, ph_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[ph_range_min, ph_range_max])
 
         return fig
 
@@ -242,8 +243,8 @@ def Add_Dash(server):
         orp_range_min = min(data["orp"]) - 10
         orp_range_max = max(data["orp"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="ORP", range=[orp_range_min, orp_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[orp_range_min, orp_range_max])
 
         return fig
 
@@ -285,8 +286,8 @@ def Add_Dash(server):
         ec_range_min = min(data["ec"]) - 10
         ec_range_max = max(data["ec"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="EC", range=[ec_range_min, ec_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[ec_range_min, ec_range_max])
 
         return fig
 
@@ -328,8 +329,8 @@ def Add_Dash(server):
         ammonia_range_min = min(data["ammonia"]) - 10
         ammonia_range_max = max(data["ammonia"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Ammonia", range=[ammonia_range_min, ammonia_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[ammonia_range_min, ammonia_range_max])
 
         return fig
 
@@ -371,8 +372,8 @@ def Add_Dash(server):
         nitrite_range_min = min(data["nitrite"]) - 10
         nitrite_range_max = max(data["nitrite"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Nitrite", range=[nitrite_range_min, nitrite_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[nitrite_range_min, nitrite_range_max])
 
         return fig
 
@@ -414,8 +415,8 @@ def Add_Dash(server):
         nitrate_range_min = min(data["nitrate"]) - 10
         nitrate_range_max = max(data["nitrate"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Nitrate", range=[nitrate_range_min, nitrate_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[nitrate_range_min, nitrate_range_max])
 
         return fig
 
@@ -457,8 +458,8 @@ def Add_Dash(server):
         oxygen_range_min = min(data["oxygen"]) - 10
         oxygen_range_max = max(data["oxygen"]) + 10
 
-        fig.update_xaxes(title_text="Time", range=[time_range_min, time_range_max])
-        fig.update_yaxes(title_text="Oxygen", range=[oxygen_range_min, oxygen_range_max])
+        fig.update_xaxes(range=[time_range_min, time_range_max])
+        fig.update_yaxes(range=[oxygen_range_min, oxygen_range_max])
 
         return fig
 

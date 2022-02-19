@@ -57,43 +57,50 @@ def add_data():
         temperature = {
             'value': request.form.get('temperature'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
         ph = {
             'value': request.form.get('ph'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
         ec = {
             'value': request.form.get('ec'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
         orp = {
             'value': request.form.get('orp'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
         ammonia = {
             'value': request.form.get('ammonia'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
         nitrite = {
             'value': request.form.get('nitrite'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
         nitrate = {
             'value': request.form.get('nitrate'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
         oxygen = {
             'value': request.form.get('oxygen'),
             'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            'user_id': 1
+            'user_id': current_user.id
+            # 'user_id': 1
         }
 
         Temperature(**temperature).add_to_db()
