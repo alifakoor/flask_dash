@@ -48,72 +48,71 @@ def add_data():
     # if current_user.username == admin_user:
 
     if request.method == 'POST':
-        # if validator(request):
-        #
-        #
-        # else:
-        #     message = "Data is not correct."
+        if not validator(request):
+            temperature = {
+                'value': request.form.get('temperature'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            ph = {
+                'value': request.form.get('ph'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            ec = {
+                'value': request.form.get('ec'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            orp = {
+                'value': request.form.get('orp'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            ammonia = {
+                'value': request.form.get('ammonia'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            nitrite = {
+                'value': request.form.get('nitrite'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            nitrate = {
+                'value': request.form.get('nitrate'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
+            oxygen = {
+                'value': request.form.get('oxygen'),
+                'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
+                # 'user_id': current_user.id
+                'user_id': 1
+            }
 
-        temperature = {
-            'value': request.form.get('temperature'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
-        ph = {
-            'value': request.form.get('ph'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
-        ec = {
-            'value': request.form.get('ec'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
-        orp = {
-            'value': request.form.get('orp'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
-        ammonia = {
-            'value': request.form.get('ammonia'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
-        nitrite = {
-            'value': request.form.get('nitrite'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
-        nitrate = {
-            'value': request.form.get('nitrate'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
-        oxygen = {
-            'value': request.form.get('oxygen'),
-            'timestamp': datetime.datetime.now(pytz.timezone('Asia/Tehran')),
-            # 'user_id': current_user.id
-            'user_id': 1
-        }
+            Temperature(**temperature).add_to_db()
+            PH(**ph).add_to_db()
+            EC(**ec).add_to_db()
+            ORP(**orp).add_to_db()
+            Ammonia(**ammonia).add_to_db()
+            Nitrite(**nitrite).add_to_db()
+            Nitrate(**nitrate).add_to_db()
+            Oxygen(**oxygen).add_to_db()
 
-        Temperature(**temperature).add_to_db()
-        PH(**ph).add_to_db()
-        EC(**ec).add_to_db()
-        ORP(**orp).add_to_db()
-        Ammonia(**ammonia).add_to_db()
-        Nitrite(**nitrite).add_to_db()
-        Nitrate(**nitrate).add_to_db()
-        Oxygen(**oxygen).add_to_db()
+            success = True,
+            message = "Data has been saved successfully."
 
-        success = True,
-        message = "Data has been saved successfully."
+        else:
+            message = "Data is not correct."
+
     else:
         message = "Request method is not correct."
 
@@ -123,51 +122,57 @@ def add_data():
     })
 
 
-def validator(request):
+def validator(req):
     err = False
-    for key, value in request.form.items():
-        # if not type(value) is float:
-        #     err = True
-        #     break
+    for key, value in req.form.items():
+        if not value or not value.isnumeric():
+            err = True
+            break
+
+        helper = float(value)
+
+        if helper < 0:
+            err = True
+            break
 
         if key == 'temperature':
-            if not float(value) >= 0 or not float(value) <= 50:
+            if not helper <= 50:
                 err = True
                 break
 
         if key == 'ph':
-            if not float(value) >= 0 or not float(value) <= 14:
+            if not helper <= 14:
                 err = True
                 break
 
         if key == 'ec':
-            if not float(value) >= 0 or not float(value) <= 4000:
+            if not helper <= 4000:
                 err = True
                 break
 
         if key == 'orp':
-            if not float(value) >= 0 or not float(value) <= 400:
+            if not helper <= 400:
                 err = True
                 break
 
         if key == 'ammonia':
-            if not float(value) >= 0 or not float(value) <= 2000:
+            if not helper <= 2000:
                 err = True
                 break
 
         if key == 'nitrite':
-            if not float(value) >= 0 or not float(value) <= 50:
+            if not helper <= 50:
                 err = True
                 break
 
         if key == 'nitrate':
-            if not float(value) >= 0 or not float(value) <= 50:
+            if not helper <= 50:
                 err = True
                 break
 
         if key == 'oxygen':
-            if not float(value) >= 0 or not float(value) <= 100:
+            if not helper <= 100:
                 err = True
                 break
 
-    return not err
+    return err
